@@ -3,6 +3,7 @@ import "@fontsource/raleway";
 import "@fontsource/comfortaa";
 import "@fontsource/averia-serif-libre";
 import { SEO } from "astro-seo";
+import { Picture } from "@astrojs/image/components";
 
 import Menu from "../components/Menu.astro";
 import Topic from "../components/Topic.astro";
@@ -10,12 +11,12 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CoreValue from "../components/CoreValue.astro";
 
-import oss from "/oss.svg";
-import building from "/building.png";
-import github from "/icons/github.svg";
-import passion from "/icons/passion.svg";
-import engaged from "/icons/engaged.svg";
-import pioneers from "/icons/pioneers.svg";
+import building from "../../public/building.png";
+import OpenSource from "../components/OpenSource.astro";
+import GitHubIcon from "../icons/github.astro";
+import PassionIcon from "../icons/passion.astro";
+import EngagedIcon from "../icons/engaged.astro";
+import PioneersIcon from "../icons/pioneers.astro";
 ---
 
 <html class="scroll-smooth" lang="en">
@@ -34,10 +35,18 @@ import pioneers from "/icons/pioneers.svg";
         basic: {
           title: "brainhive - Cutting-edge digital solutions",
           type: "website",
-          image: "https://brainhive.nl/illustration.svg"
+          image: "https://brainhive.nl/illustration.svg",
         },
       }}
     />
+    <style is:global>
+      svg {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+      }
+    </style>
   </head>
   <body>
     <div class="flex flex-col h-[100vh]">
@@ -96,17 +105,17 @@ import pioneers from "/icons/pioneers.svg";
           <h3 class="font-display text-5xl text-light-red">Our core values</h3>
 
           <div class="space-y-4 md:space-y-0 md:grid grid-cols-3 gap-8 py-20">
-            <CoreValue title="Pioneers" image={pioneers}>
+            <CoreValue title="Pioneers" image={PioneersIcon}>
               At brainhive we're always on the move. We like to think outside of
               the box and do what other's don't dare to do.
             </CoreValue>
 
-            <CoreValue title="Passion" image={passion}>
+            <CoreValue title="Passion" image={PassionIcon}>
               Our passion for software development goes far. We enthusiastically
               contribute — via open-source — to knowledge in the sector.
             </CoreValue>
 
-            <CoreValue title="Engaged" image={engaged}>
+            <CoreValue title="Engaged" image={EngagedIcon}>
               We want to understand your business . Only then we can come up
               with the best possible solution.
             </CoreValue>
@@ -116,7 +125,7 @@ import pioneers from "/icons/pioneers.svg";
         <div class="py-24">
           <div class="md:grid grid-cols-12 gap-20">
             <div class="col-span-5">
-              <img src={building} alt="our office" />
+              <Picture src={building} widths={[700]} alt="our office" />
             </div>
             <div class="col-span-7">
               <h3
@@ -163,12 +172,17 @@ import pioneers from "/icons/pioneers.svg";
               href="https://github.com/brainhivenl"
               target="_blank"
             >
-              <img class="h-8 mr-4" src={github} alt="github logo" />
+              <div class="w-6 mr-4">
+                <GitHubIcon />
+              </div>
+
               View our GitHub profile
             </a>
           </div>
           <div class="hidden md:block col-span-6">
-            <img class="w-full" src={oss} />
+            <div class="w-full">
+              <OpenSource />
+            </div>
           </div>
         </div>
       </div>

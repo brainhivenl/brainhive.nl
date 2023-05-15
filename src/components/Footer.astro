@@ -1,7 +1,7 @@
 ---
-import logo from "/logo-white.svg";
-import email from "/icons/email.svg";
-import phone from "/icons/phone.svg";
+import LogoWhite from "../components/LogoWhite.astro";
+import Email from "../icons/email.astro";
+import Phone from "../icons/phone.astro";
 ---
 
 <div class="bg-[#030418] py-16 md:py-24 2xl:py-32">
@@ -18,7 +18,9 @@ import phone from "/icons/phone.svg";
 
     <div class="grid grid-cols-4 md:grid-cols-8">
       <div class="mb-6 md:mb-0 col-span-2">
-        <img src={logo} alt="brainhive logo" class="w-24" />
+        <div class="w-24">
+          <LogoWhite />
+        </div>
       </div>
       <div class="mb-6 md:mb-0 col-span-2">
         <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Menu</h5>
@@ -50,11 +52,17 @@ import phone from "/icons/phone.svg";
         <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Contact</h5>
         <ul class="space-y-4">
           <li>
-            <img class="h-5 inline-block mr-2" src={email} alt="email" />
+            <div class="h-5 inline-block mr-2">
+              <Email />
+            </div>
+
             <a href="mailto:dillen@brainhive.nl">dillen@brainhive.nl</a>
           </li>
           <li>
-            <img class="h-5 inline-block mr-2" src={phone} alt="phone" />
+            <div class="h-5 inline-block mr-2">
+              <Phone />
+            </div>
+
             <a href="mailto:0031646296032">06 46296032</a>
           </li>
         </ul>

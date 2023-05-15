@@ -1,4 +1,4 @@
-/// <reference types="astro/client" />
+/// <reference types="astrojs/image/client" />
 
 declare module "*.svg" {
   const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;

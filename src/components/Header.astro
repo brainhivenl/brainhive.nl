@@ -1,5 +1,5 @@
 ---
-import illustration from "/illustration.svg";
+import Illustration from "./Illustration.astro";
 ---
 
 <div
@@ -14,7 +14,9 @@ import illustration from "/illustration.svg";
 
     <hr class="mb-5" />
 
-    <h2 class="text-md md:text-lg 2xl:text-xl text-gray-500 !leading-loose mb-24">
+    <h2
+      class="text-md md:text-lg 2xl:text-xl text-gray-500 !leading-loose mb-24"
+    >
       We develop <strong>smart</strong> digital solutions and look beyond the question
       to find the <strong>core</strong> of problems and prevent recurring issues.
       As <strong>pioneers</strong>, we do what others don't dare to do and
@@ -24,6 +26,8 @@ import illustration from "/illustration.svg";
     </h2>
   </div>
   <div class="hidden md:block col-span-5">
-    <img class="w-full" src={illustration} />
+    <div class="w-full">
+      <Illustration />
+    </div>
   </div>
 </div>
