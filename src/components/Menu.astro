@@ -1,17 +1,43 @@
 ---
 import logo from "/logo-alt.svg";
+import menu from "/icons/menu.svg";
 import MenuLink from "./MenuLink.astro";
 ---
 
 <div class="container mx-auto grid grid-cols-12 py-6">
-  <a class="col-span-4 mr-8" href="/">
+  <a class="col-span-6 md:col-span-4 mr-8" href="/">
     <img class="h-12" src={logo} alt="logo" />
   </a>
 
-  <div class="col-span-8 grid grid-cols-4 text-white w-full content-center">
+  <div class="md:hidden col-span-6 text-right">
+    <menu-button>
+      <img class="w-8 inline relative z-20" src={menu} alt="menu" />
+    </menu-button>
+  </div>
+
+  <div
+    class="hidden shadow-md absolute space-y-2 left-0 top-0 p-4 w-full bg-white md:static md:shadow-none md:space-y-0 md:w-auto md:p-0 menu-content md:grid col-span-8 grid-cols-4 text-white w-full content-center"
+  >
     <MenuLink href="about-us">about us</MenuLink>
     <MenuLink href="what-we-do">what we do</MenuLink>
     <MenuLink href="open-source">open-source</MenuLink>
     <MenuLink href="contact">contact</MenuLink>
   </div>
 </div>
+
+<script>
+  class MenuButton extends HTMLElement {
+    constructor() {
+      super();
+
+      this.addEventListener("click", () => {
+        const parent = this.parentElement?.parentElement!;
+        const menuContent = parent
+          .querySelector(".menu-content")!
+          .classList.toggle("hidden");
+      });
+    }
+  }
+
+  customElements.define("menu-button", MenuButton);
+</script>

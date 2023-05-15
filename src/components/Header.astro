@@ -3,11 +3,11 @@ import illustration from "/illustration.svg";
 ---
 
 <div
-  class="basis-full container mx-auto py-18 2xl:py-24 grid grid-cols-12 gap-12 items-center"
+  class="basis-full container mx-auto py-18 2xl:py-24 md:grid grid-cols-12 gap-12 items-center"
 >
-  <div class="col-span-7 pr-20">
+  <div class="col-span-7 md:pr-20">
     <h1
-      class="text-8xl 2xl:text-9xl text-[#7A408D] font-bold font-display leading-snug"
+      class="text-6xl md:text-8xl 2xl:text-9xl text-[#7A408D] font-bold font-display leading-snug"
     >
       Cutting-edge digital solutions
     </h1>
@@ -23,7 +23,7 @@ import illustration from "/illustration.svg";
       possible solution.
     </h2>
   </div>
-  <div class="col-span-5">
+  <div class="hidden md:block col-span-5">
     <img class="w-full" src={illustration} />
   </div>
 </div>
