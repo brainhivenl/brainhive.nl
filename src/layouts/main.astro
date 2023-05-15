@@ -2,6 +2,7 @@
 import "@fontsource/raleway";
 import "@fontsource/comfortaa";
 import "@fontsource/averia-serif-libre";
+import { SEO } from "astro-seo";
 
 import Menu from "../components/Menu.astro";
 import Topic from "../components/Topic.astro";
@@ -26,7 +27,17 @@ import pioneers from "/icons/pioneers.svg";
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>brainhive.nl</title>
+    <SEO
+      title="brainhive - Cutting-edge digital solutions"
+      description="We develop smart digital solutions and look beyond the question to find the core of problems and prevent recurring issues."
+      openGraph={{
+        basic: {
+          title: "brainhive - Cutting-edge digital solutions",
+          type: "website",
+          image: "https://brainhive.nl/illustration.svg"
+        },
+      }}
+    />
   </head>
   <body>
     <div class="flex flex-col h-[100vh]">
@@ -38,7 +49,9 @@ import pioneers from "/icons/pioneers.svg";
       <div class="container mx-auto">
         <a id="what-we-do"></a>
 
-        <div class="space-y-2 md:space-y-0 md:grid grid-cols-3 relative top-[-80px]">
+        <div
+          class="space-y-2 md:space-y-0 md:grid grid-cols-3 relative top-[-80px]"
+        >
           <div
             class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:border-r-0 md:rounded-l-md"
           >
@@ -53,7 +66,9 @@ import pioneers from "/icons/pioneers.svg";
               </p>
             </Topic>
           </div>
-          <div class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:border-r-0">
+          <div
+            class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:border-r-0"
+          >
             <Topic title="Embedded">
               <p>
                 We build safe and reliable software for embedded devices using
@@ -63,7 +78,9 @@ import pioneers from "/icons/pioneers.svg";
               </p>
             </Topic>
           </div>
-          <div class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:rounded-r-md">
+          <div
+            class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:rounded-r-md"
+          >
             <Topic title="Web-applications">
               <p>
                 We build all sorts of web-applications, whether it's a simple
@@ -102,7 +119,9 @@ import pioneers from "/icons/pioneers.svg";
               <img src={building} alt="our office" />
             </div>
             <div class="col-span-7">
-              <h3 class="mt-6 md:mt-0 font-display text-4xl mb-6 text-light-red">
+              <h3
+                class="mt-6 md:mt-0 font-display text-4xl mb-6 text-light-red"
+              >
                 The story behind brainhive
               </h3>
 

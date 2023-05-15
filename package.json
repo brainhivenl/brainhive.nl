@@ -19,6 +19,7 @@
     "@fontsource/reem-kufi-fun": "^4.5.1",
     "@fontsource/righteous": "^4.5.7",
     "astro": "^2.4.5",
+    "astro-seo": "^0.7.2",
     "tailwindcss": "^3.3.2"
   }
 }
