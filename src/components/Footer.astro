@@ -1,0 +1,62 @@
+---
+import logo from "/logo-white.svg";
+import email from "/icons/email.svg";
+import phone from "/icons/phone.svg";
+---
+
+<div class="bg-[#030418] py-24 2xl:py-32">
+  <div class="container mx-auto bg-light-red p-12 mb-24 rounded-xl">
+    <h3 class="text-3xl 2xl:text-4xl font-bold font-display text-light-blue">
+      Beyond the ordinary, ready?
+    </h3>
+  </div>
+
+  <div class="container mx-auto text-gray-400">
+    <a id="contact"></a>
+
+    <div class="grid grid-cols-8">
+      <div class="col-span-2">
+        <img src={logo} alt="brainhive logo" class="w-24" />
+      </div>
+      <div class="col-span-2">
+        <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Menu</h5>
+        <ul class="space-y-4">
+          <li><a href="/#about-us">About us</a></li>
+          <li><a href="/#what-we-do">What we do</a></li>
+          <li><a href="/#open-source">Open-source</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-span-2">
+        <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Resources</h5>
+        <ul class="space-y-4">
+          <li>
+            <a href="https://medium.com/@dillen.dev" target="_blank">Medium</a>
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/company/brainhive/"
+              target="_blank">LinkedIn</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/brainhivenl" target="_blank">GitHub</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-span-2">
+        <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Contact</h5>
+        <ul class="space-y-4">
+          <li>
+            <img class="h-5 inline-block mr-2" src={email} alt="email" />
+            <a href="mailto:dillen@brainhive.nl">dillen@brainhive.nl</a>
+          </li>
+          <li>
+            <img class="h-5 inline-block mr-2" src={phone} alt="phone" />
+            <a href="mailto:0031646296032">06 46296032</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

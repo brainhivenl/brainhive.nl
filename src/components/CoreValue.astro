@@ -1,0 +1,16 @@
+---
+const { title, image } = Astro.props;
+---
+
+<div class="flex flex-row">
+  <img class="w-8 self-start" src={image} />
+
+  <div class="ml-5">
+    <h5 class="font-bold text-2xl text-gray-700 text-[#3a4f7e] mb-2">
+      {title}
+    </h5>
+    <div class="text-xl text-gray-600 leading-relaxed">
+      <slot />
+    </div>
+  </div>
+</div>

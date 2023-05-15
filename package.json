@@ -10,6 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.4.1"
+    "@astrojs/tailwind": "^3.1.2",
+    "@fontsource/averia-serif-libre": "^4.5.7",
+    "@fontsource/comfortaa": "^4.5.11",
+    "@fontsource/inter": "^4.5.15",
+    "@fontsource/patua-one": "^4.5.9",
+    "@fontsource/raleway": "^4.5.12",
+    "@fontsource/reem-kufi-fun": "^4.5.1",
+    "@fontsource/righteous": "^4.5.7",
+    "astro": "^2.4.5",
+    "tailwindcss": "^3.3.2"
   }
 }

@@ -45,3 +45,5 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+https://coolors.co/4a80ba-7a408d-ff5a5f-46351d-e9fff8
