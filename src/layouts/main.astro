@@ -1,9 +1,11 @@
 ---
 import Bare from "./Bare.astro";
 import Menu from "../components/Menu.astro";
+
+const { seo } = Astro.props;
 ---
 
-<Bare>
+<Bare seo={seo}>
   <Menu />
   <slot />
 </Bare>

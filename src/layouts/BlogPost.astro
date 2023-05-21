@@ -1,5 +1,4 @@
 ---
-import { SEO } from "astro-seo";
 import { parseISO, format } from "date-fns";
 import nl from "date-fns/locale/nl/index.js";
 import { Picture } from "@astrojs/image/components";
@@ -11,19 +10,13 @@ const publishedAt = parseISO(frontmatter.publishedAt);
 const publishedAtFmt = format(publishedAt, "d MMM yyyy", { locale: nl });
 ---
 
-<Layout>
-  <SEO
-    title={`brainhive - ${frontmatter.title}`}
-    description={frontmatter.intro}
-    openGraph={{
-      basic: {
-        title: `brainhive - ${frontmatter.title}`,
-        type: "website",
-        image: `https://brainhive.nl${frontmatter.cover.image}`,
-      },
-    }}
-  />
-
+<Layout
+  seo={{
+    title: `brainhive - ${frontmatter.title}`,
+    description: frontmatter.intro,
+    image: `https://brainhive.nl${frontmatter.cover.image}`,
+  }}
+>
   <div class="flex items-end relative h-[450px]">
     <div
       class="flex items-center absolute left-0 top-0 w-full h-full overflow-hidden"

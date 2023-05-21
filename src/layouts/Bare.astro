@@ -5,6 +5,8 @@ import "@fontsource/averia-serif-libre";
 import { SEO } from "astro-seo";
 
 import Footer from "../components/Footer.astro";
+
+const { seo } = Astro.props;
 ---
 
 <html class="scroll-smooth" lang="en">
@@ -17,13 +19,14 @@ import Footer from "../components/Footer.astro";
     <meta name="viewport" content="width=device-width" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <SEO
-      title="brainhive - Cutting-edge digital solutions"
-      description="We develop smart digital solutions and look beyond the question to find the core of problems and prevent recurring issues."
+      title={seo?.title || "brainhive - Cutting-edge digital solutions"}
+      description={seo?.description ||
+        "We develop smart digital solutions and look beyond the question to find the core of problems and prevent recurring issues."}
       openGraph={{
         basic: {
-          title: "brainhive - Cutting-edge digital solutions",
+          title: seo?.title || "brainhive - Cutting-edge digital solutions",
           type: "website",
-          image: "https://brainhive.nl/social-post.png",
+          image: seo?.image || "https://brainhive.nl/social-post.png",
         },
       }}
     />
