@@ -12,6 +12,7 @@ module.exports = {
 				comfortaa: ['Comfortaa', 'sans-serif'],
 			},
 			colors: {
+				purple: '#7A408D',
 				'dark-blue': '#3a4f7e',
 				'light-blue': '#eaf5f8',
 				'light-red': '#FF5A5F'

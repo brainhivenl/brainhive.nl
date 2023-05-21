@@ -1,0 +1,140 @@
+---
+layout: ../../layouts/BlogPost.astro
+cover:
+  image: "/posts/memory-alignment.jpg"
+  aspectRatio: "3:2"
+publishedAt: 2022-08-05T12:00:00Z
+title: Memory Alignment
+subtitle: ""
+intro: |
+    Today we're going to talk about memory alignment.
+    We'll show some practical examples in Rust to show why this is relevant.
+---
+
+Before we dive into it, let's start with a practical example in Rust to show why this is relevant:
+
+```rust
+use std::mem;
+
+struct Member {
+    active: bool,
+    age: i32,
+}
+
+fn main() {
+    println!("bool: {} bytes", mem::size_of::<bool>());
+    println!("i32: {} bytes", mem::size_of::<i32>());
+    println!("Member: {} bytes", mem::size_of::<Member>());
+}
+```
+
+We defined a struct called `Member`, which includes two fields.
+Then we print the memory size of all of the types.
+The size of a bool in rust is 1 byte, and the size of a 32-bit integer is 4 bytes; thus, the total size of our struct should be 5 bytes, right?
+
+```bash
+➜ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+     Running `target/debug/memory-alignment`
+bool: 1 bytes
+i32: 4 bytes
+Member: 8 bytes
+```
+
+What kind of dark magic is this... Where do these extra three bytes come from?
+
+## CPU and memory
+
+To understand how this works, we need to understand how the CPU reads the memory.
+The CPU sends the address of the memory it wants to read to the address bus.
+Then it sends the “read” command to the memory on the control bus, and finally, the memory will send the data to the data bus.
+
+![Overview of the system bus (I/O not included)](/posts/memory-alignment/system-bus.png)
+
+The amount of data transferred is often the same size as a single word (a unit specific for processors).
+On most 64-bit CPUs, the word size equals 8 bytes (=64 bits), whereas, on most 32-bit CPUs, this would be 4 bytes (=32 bits).
+Unaligned memory usually hurts performance as more CPU instructions are required.
+This is where memory alignment comes into place.
+
+## Back to our code
+
+Remember that our `Member` struct has a size of 8 bytes while its fields combined only take up 5 bytes?
+This is because the compiler automatically aligns our memory.
+To do so, it adds three extra bytes of padding.
+
+![Memory layout of our struct on x86_64](/posts/memory-alignment/member-struct.png)
+
+The amount of padding is based on the field type, struct size, and CPU properties (such as the word size).
+
+## Field order
+
+The order of the fields in C, C++, Go, and possible other programming languages matter because extra padding will be used.
+However, in Rust, struct fields will be re-ordered by default to get the smallest possible size.
+The compiler is allowed to do so because, by default, Rust [makes no guarantees](https://doc.rust-lang.org/reference/type-layout.html#the-default-representation) for struct types.
+
+To demonstrate, we can use the C representation, which will use a type layout interoperable with the C Language.
+Let's add another boolean field to our struct:
+
+```rust
+use std::mem;
+
+#[repr(C)]
+struct Member {
+    active: bool,
+    age: i32,
+    admin: bool,
+}
+
+fn main() {
+    println!("Member: {} bytes", mem::size_of::<Member>());
+}
+```
+
+The `repr(C)` attribute enables the C representation. This way, the fields won't be re-ordered. Let’s execute it to see the result:
+
+```bash
+➜ cargo run
+   Compiling memory-alignment v0.1.0 
+    Finished dev [unoptimized + debuginfo] target(s) in 0.53s
+     Running `target/debug/memory-alignment`
+Member: 12 bytes
+```
+
+We can now “optimize” our `Member` struct by re-ordering the fields manually.
+To get the memory size back to 8 bytes, we have to move the `age` field to be the first field in the struct:
+
+```rust
+use std::mem;
+
+#[repr(C)]
+struct Member {
+    age: i32,
+    active: bool,
+    admin: bool,
+}
+
+fn main() {
+    println!("Member: {} bytes", mem::size_of::<Member>());
+}
+```
+
+To verify if this has the expected result, we need to execute our program again:
+
+```bash
+➜ cargo run
+   Compiling memory-alignment v0.1.0 
+    Finished dev [unoptimized + debuginfo] target(s) in 0.42s
+     Running `target/debug/memory-alignment`
+Member: 8 bytes
+```
+
+To understand how this works, we can look at the memory layout for our `Member` struct both before and after re-ordering the fields.
+
+![Memory layout on x86_64 using the C representation with and without ordering fields](/posts/memory-alignment/member-struct-comparison.png)
+
+## Tooling
+
+As mentioned earlier, tooling is unnecessary when using Rust, as you most likely don't have to manually re-order fields.
+However, when you use Go, you can configure the [fieldalignment analyzer](https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/fieldalignment) with [golangci-lint](https://github.com/golangci/golangci-lint) to warn about “unoptimized” structures.
+
+I’m not aware of any tooling for C or C++ so let me know if you have any suggestions!

@@ -1,0 +1,88 @@
+---
+import fs from "fs/promises";
+import { SEO } from "astro-seo";
+import { nl } from "date-fns/locale";
+import { parseISO, format } from "date-fns";
+import { Picture } from "@astrojs/image/components";
+
+import Layout from "../layouts/Bare.astro";
+import Menu from "../components/Menu.astro";
+
+const imports = (await fs.readdir("./src/pages/blog"))
+  .filter((name) => name.endsWith(".mdx"))
+  .map((name) => import(`./blog/${name}` /* @vite-ignore */));
+const posts = (await Promise.all(imports)).map((post) => {
+  const publishedAt = parseISO(post.frontmatter.publishedAt);
+
+  return {
+    ...post.frontmatter,
+    url: post.url,
+    publishedAt,
+    publishedAtFmt: format(publishedAt, "d MMM yyyy", { locale: nl }),
+  };
+});
+
+posts.sort((a, b) => b.publishedAt - a.publishedAt);
+
+const mainPost = posts.shift();
+---
+
+<Layout>
+  <SEO
+    title={`brainhive - Blog`}
+    openGraph={{
+      basic: {
+        title: `brainhive - Blog`,
+        type: "website",
+        image: `https://brainhive.nl/illustration.png`,
+      },
+    }}
+  />
+
+  <Menu />
+
+  <div class="container mx-auto py-12 md:py-24">
+    <h1 class="font-display text-7xl text-purple">Blog</h1>
+  </div>
+
+  <div class="container mx-auto py-12 md:py-24 !pt-0">
+    <div class="md:grid grid-cols-2 gap-6 mb-20">
+      <Picture
+        class="w-full rounded-sm"
+        src={mainPost.cover.image}
+        widths={[1920, 1440, 760]}
+        alt="main post cover image"
+        aspectRatio={mainPost.cover.aspectRatio}
+      />
+
+      <a href={mainPost.url} class="block">
+        <p class="text-xs text-slate-500 mt-4 md:mt-0 mb-2">{mainPost.publishedAtFmt}</p>
+        <h2 class="font-display text-5xl text-dark-blue leading-snug mb-2">
+          {mainPost.title}
+        </h2>
+        <p class="text-lg leading-loose text-slate-600 mb-4">
+          {mainPost.intro}
+        </p>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+      {
+        posts.map((post) => (
+          <a href={post.url} class="block">
+            <Picture
+              class="w-full rounded-sm mb-4"
+              src={post.cover.image}
+              widths={[500, 400, 300]}
+              alt="post cover image"
+              aspectRatio={post.cover.aspectRatio}
+            />
+            <p class="text-xs text-slate-500 mb-1">{post.publishedAtFmt}</p>
+            <h3 class="font-display text-dark-blue text-2xl mb-3">{post.title}</h3>
+            <p class="text-slate-600">{post.intro}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
