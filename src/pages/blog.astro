@@ -11,16 +11,18 @@ import Menu from "../components/Menu.astro";
 const imports = (await fs.readdir("./src/pages/blog"))
   .filter((name) => name.endsWith(".mdx"))
   .map((name) => import(`./blog/${name}` /* @vite-ignore */));
-const posts = (await Promise.all(imports)).map((post) => {
-  const publishedAt = parseISO(post.frontmatter.publishedAt);
+const posts = (await Promise.all(imports))
+  .filter((post) => !post.frontmatter.draft)
+  .map((post) => {
+    const publishedAt = parseISO(post.frontmatter.publishedAt);
 
-  return {
-    ...post.frontmatter,
-    url: post.url,
-    publishedAt,
-    publishedAtFmt: format(publishedAt, "d MMM yyyy", { locale: nl }),
-  };
-});
+    return {
+      ...post.frontmatter,
+      url: post.url,
+      publishedAt,
+      publishedAtFmt: format(publishedAt, "d MMM yyyy", { locale: nl }),
+    };
+  });
 
 posts.sort((a, b) => b.publishedAt - a.publishedAt);
 
@@ -56,7 +58,9 @@ const mainPost = posts.shift();
       />
 
       <a href={mainPost.url} class="block">
-        <p class="text-xs text-slate-500 mt-4 md:mt-0 mb-2">{mainPost.publishedAtFmt}</p>
+        <p class="text-xs text-slate-500 mt-4 md:mt-0 mb-2">
+          {mainPost.publishedAtFmt}
+        </p>
         <h2 class="font-display text-5xl text-dark-blue leading-snug mb-2">
           {mainPost.title}
         </h2>
@@ -78,7 +82,9 @@ const mainPost = posts.shift();
               aspectRatio={post.cover.aspectRatio}
             />
             <p class="text-xs text-slate-500 mb-1">{post.publishedAtFmt}</p>
-            <h3 class="font-display text-dark-blue text-2xl mb-3">{post.title}</h3>
+            <h3 class="font-display text-dark-blue text-2xl mb-3">
+              {post.title}
+            </h3>
             <p class="text-slate-600">{post.intro}</p>
           </a>
         ))
