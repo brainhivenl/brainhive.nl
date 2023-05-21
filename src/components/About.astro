@@ -1,0 +1,109 @@
+---
+import { Picture } from "@astrojs/image/components";
+
+import Topic from "../components/Topic.astro";
+import CoreValue from "../components/CoreValue.astro";
+import PassionIcon from "../icons/passion.astro";
+import EngagedIcon from "../icons/engaged.astro";
+import PioneersIcon from "../icons/pioneers.astro";
+
+import building from "../../public/building.png";
+---
+
+<div class="bg-light-blue">
+  <div class="container mx-auto">
+    <a id="what-we-do"></a>
+
+    <div
+      class="space-y-2 md:space-y-0 md:grid grid-cols-3 relative top-[-80px]"
+    >
+      <div
+        class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:border-r-0 md:rounded-l-md"
+      >
+        <Topic title="Cloud-native platforms">
+          <p>
+            We design and build complex and high-performance cloud-native
+            platforms that scale. We also provide on-call monitoring to make
+            sure everything keeps running smoothly. Our infrastructure runs on <a
+              class="border-b"
+              href="https://kubernetes.io/">Kubernetes</a
+            > trusted by companies like Booking.com, ING and Spotify.
+          </p>
+        </Topic>
+      </div>
+      <div
+        class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:border-r-0"
+      >
+        <Topic title="Embedded">
+          <p>
+            We build safe and reliable software for embedded devices using the <a
+              class="border-b"
+              href="https://www.rust-lang.org/">Rust programming language</a
+            >.
+          </p>
+        </Topic>
+      </div>
+      <div
+        class="bg-white p-2 py-4 md:p-6 md:py-8 border-gray-300 border-2 rounded-md md:rounded-none md:rounded-r-md"
+      >
+        <Topic title="Web-applications">
+          <p>
+            We build all sorts of web-applications, whether it's a simple
+            landing page or a full-featured website with a content management
+            system.
+          </p>
+        </Topic>
+      </div>
+    </div>
+
+    <div class="py-18 2xl:py-24">
+      <a id="about-us"></a>
+      <h3 class="font-display text-5xl text-light-red">Our core values</h3>
+
+      <div class="space-y-4 md:space-y-0 md:grid grid-cols-3 gap-8 py-20">
+        <CoreValue title="Pionering" image={PioneersIcon}>
+          At brainhive we're always in motion. We go off the beaten track and do
+          what other don't dare.
+        </CoreValue>
+
+        <CoreValue title="Driven" image={PassionIcon}>
+          Via open source projects we enthusiastically contribute to industry
+          knowledge.
+        </CoreValue>
+
+        <CoreValue title="Engaged" image={EngagedIcon}>
+          We want to understand your business . Only then we can come up with
+          the best possible solution.
+        </CoreValue>
+      </div>
+    </div>
+
+    <div class="py-24">
+      <div class="md:grid grid-cols-12 gap-20">
+        <div class="col-span-5">
+          <Picture
+            src={building}
+            widths={[700]}
+            aspectRatio="4:5"
+            alt="our office"
+          />
+        </div>
+        <div class="col-span-7">
+          <h3 class="mt-6 md:mt-0 font-display text-4xl mb-6 text-light-red">
+            The story behind brainhive
+          </h3>
+
+          <p class="text-lg md:text-xl !leading-loose text-gray-800">
+            Founded by a nerd with a passion for software development.
+            Enthousiastic and slightly rebellious. He's been into programming
+            since the age of 12. So, he's certainly got plenty of experience
+            under his belt. One of his frustrations is a process that doesn't
+            run smoothly. That, coupled with the belief that there's a digital
+            solution for every problem, led him to take matters into his own
+            hands. brainhive is born.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

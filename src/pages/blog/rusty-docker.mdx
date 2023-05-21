@@ -1,0 +1,79 @@
+---
+layout: ../../layouts/BlogPost.astro
+cover:
+  image: "/posts/rusty-docker.jpg"
+  aspectRatio: "4:3"
+title: Rusty Docker? Never Again!
+subtitle: Fast and reliable Rust builds in Docker
+intro: |
+    Before founding brainhive, I picked Go as my programming language of choice (for most backend projects). But I started using Rust more often in the last couple of months. There were a couple of issues I ran into. Most of them were easy to fix, but one major issue remained…
+---
+
+Yes, I'm talking about compilation times. In Docker, to be specific. I don't want to wait minutes (or worse) before the changes I made are visible. So, let's fix that!
+
+## Prerequisites
+
+Buildings Rust projects require a lot of memory and CPU, so allocate enough resources. Especially when running on a Mac, as the Docker daemon runs in a Linux VM (which has its own resource constraints). Also, don't forget to enable `VirtioFS`, as it will improve I/O performance.
+
+## First things first…
+
+Let's start with a basic Dockerfile:
+
+```dockerfile
+FROM rust:slim-buster AS builder
+
+WORKDIR /build
+
+COPY Cargo.toml Cargo.lock .
+COPY src src
+
+RUN cargo build --release
+
+CMD /build/target/release/test-app
+```
+
+Pretty simple, right? It copies the files we need, compiles our application using `cargo` (in release mode), and sets the target executable as our command. It works but is slow, as every change to any file will trigger a complete rebuild. So, why is this bad? Well, each time, we have to download the source code for the dependencies, invoke build scripts and compile our crate and its dependencies.
+
+### #1 - Pre-compile dependencies
+
+In 2016, the [Rust team announced](https://blog.rust-lang.org/2016/09/08/incremental.html) support for incremental compilation. At the time, it was still in alpha stage but has significantly improved in the last couple of years. To this day, it is still a [work in progress](https://blog.rust-lang.org/inside-rust/2022/02/22/compiler-team-ambitions-2022.html#incremental-compilation-aspirations).
+
+The goal is to (pre)compile dependencies based on the `Cargo.toml`/`Cargo.lock` files without copying the actual source code. As that would invalidate the layer on each change. The trick is to create an empty project, copy the cargo files and run `cargo build`:
+
+```dockerfile
+WORKDIR /build/app
+
+RUN cargo init
+
+COPY Cargo.toml Cargo.lock ./
+
+RUN cargo fetch && \
+  cargo build --release && \
+  rm src/*.rs
+
+COPY src src
+
+RUN touch src/main.rs && \
+  cargo build --release
+```
+
+You might wonder why we are using `touch` in the last instruction. The first command (`cargo init`) will create an empty project with a `main.rs` file in the source directory, replacing our code after the dependencies are compiled. The thing is that cargo relies on file modification time to track if a file has changed.
+
+[This works fine](https://github.com/rust-lang/cargo/issues/2426), but as we override `main.rs` when copying the source folder, the file modification time isn't updated, and our changes are never reflected in the final binary. So, instead, we trick cargo into thinking that the file was changed recently.
+
+### #2 - Shared compilation cache
+
+In 2017, [Mozilla introduced sccache](https://users.rust-lang.org/t/sccache-for-caching-rust-compilation/10960), a project similar to [ccache](https://ccache.dev/), which accelerates build times by storing cached results on-disk or in a remote storage backend. It supports Rust, C, C++, and Nvidia's CUDA. Our Docker build should be self-contained, which rules out any remote storage backend, so we'll use on-disk caching, which is the default. Let's begin with setting up sccache:
+
+```dockerfile
+ENV SCCACHE_VERSION=0.4.1
+
+RUN wget -O sccache.tar.gz https://github.com/mozilla/sccache/releases/download/v${SCCACHE_VERSION}/sccache-v${SCCACHE_VERSION}-x86_64-unknown-linux-musl.tar.gz && \
+  tar xzf sccache.tar.gz && \
+  mv sccache-v*/sccache /usr/local/bin/sccache && \
+  chmod +x /usr/local/bin/sccache
+
+ENV RUSTC_WRAPPER=/usr/local/bin/sccache
+```
+
+The next part is somewhat complicated as we need to store sccache artifacts somewhere, which persists between `docker build` runs. While going through the [Dockerfile reference](https://docs.docker.com/engine/reference/builder/#run---mounttypecache), my eyes stumbled upon the `--mount` option when using the `RUN` command. One of the things that this enables is that we can mount a persistent cache folder while running a command.

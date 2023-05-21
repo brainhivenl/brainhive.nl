@@ -1,0 +1,43 @@
+---
+import { Picture } from "@astrojs/image/components";
+
+import Layout from "./Main.astro";
+
+const {frontmatter} = Astro.props;
+---
+
+<Layout>
+  <div class="flex items-end relative h-[450px]">
+    <div
+      class="flex items-center absolute left-0 top-0 w-full h-full overflow-hidden"
+    >
+      <Picture
+        src={frontmatter.cover.image}
+        widths={[1920, 1440, 760]}
+        alt="cover image"
+        aspectRatio={frontmatter.cover.aspectRatio}
+      />
+    </div>
+
+    <div class="w-full sm:w-auto px-6 py-8 relative shrink-0 top-40 z-20 mx-auto bg-light-blue">
+      <div class="prose lg:prose-lg">
+        <div class="not-prose">
+          <h1 class="font-display text-4xl font-bold text-light-red m-0 mb-0.5">
+            {frontmatter.title}
+          </h1>
+          <h2 class="font-display text-xl text-gray-500 m-0">
+            {frontmatter.subtitle}
+          </h2>
+        </div>
+
+        <p class="leading-relaxed text-lg !mb-0">{frontmatter.intro}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-40 pb-24 pt-10">
+    <article class="px-3 w-full sm:w-auto sm:px-0 prose lg:prose-lg prose-slate prose-headings:mb-2.5 prose-headings:font-display mx-auto">
+      <slot />
+    </article>
+  </div>
+</Layout>

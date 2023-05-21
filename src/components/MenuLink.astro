@@ -1,7 +1,10 @@
 ---
-const { href } = Astro.props;
+const { href, external } = Astro.props;
 ---
 
-<a class="block md:inline text-sm font-semibold text-[#2E4476]" href={`/#${href}`}>
+<a
+  class="block md:inline text-sm font-semibold text-[#2E4476] text-center"
+  href={external ? href : `/#${href}`}
+>
   <slot />
 </a>
