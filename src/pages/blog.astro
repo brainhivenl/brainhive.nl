@@ -1,17 +1,13 @@
 ---
-import fs from "fs/promises";
 import { SEO } from "astro-seo";
-import { nl } from "date-fns/locale";
 import { parseISO, format } from "date-fns";
+import nl from "date-fns/locale/nl/index.js";
 import { Picture } from "@astrojs/image/components";
 
 import Layout from "../layouts/Bare.astro";
 import Menu from "../components/Menu.astro";
 
-const imports = (await fs.readdir("./src/pages/blog"))
-  .filter((name) => name.endsWith(".mdx"))
-  .map((name) => import(`./blog/${name}` /* @vite-ignore */));
-const posts = (await Promise.all(imports))
+const posts = (await Astro.glob("./blog/*.mdx"))
   .filter((post) => !post.frontmatter.draft)
   .map((post) => {
     const publishedAt = parseISO(post.frontmatter.publishedAt);
@@ -24,9 +20,9 @@ const posts = (await Promise.all(imports))
     };
   });
 
-posts.sort((a, b) => b.publishedAt - a.publishedAt);
+posts.sort((a, b) => b.publishedAt.getDate() - a.publishedAt.getDate());
 
-const mainPost = posts.shift();
+const mainPost = posts.shift() as any;
 ---
 
 <Layout>
@@ -72,7 +68,7 @@ const mainPost = posts.shift();
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
       {
-        posts.map((post) => (
+        posts.map((post: any) => (
           <a href={post.url} class="block">
             <Picture
               class="w-full rounded-sm mb-4"
