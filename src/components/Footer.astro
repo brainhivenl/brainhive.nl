@@ -1,7 +1,9 @@
 ---
-import LogoWhite from "../components/LogoWhite.astro";
 import Email from "../icons/email.astro";
 import Phone from "../icons/phone.astro";
+import Location from "../icons/location.astro";
+
+import LogoWhite from "../components/LogoWhite.astro";
 ---
 
 <div class="bg-[#030418] py-16 md:py-24 2xl:py-32">
@@ -52,18 +54,25 @@ import Phone from "../icons/phone.astro";
         <h5 class="text-[#5d5e72] text-xl font-bold mb-4">Contact</h5>
         <ul class="space-y-4">
           <li>
-            <div class="h-5 inline-block mr-2">
+            <div class="w-5 h-5 inline-block mr-2">
               <Email />
             </div>
 
             <a href="mailto:dillen@brainhive.nl">dillen@brainhive.nl</a>
           </li>
           <li>
-            <div class="h-5 inline-block mr-2">
+            <div class="w-5 h-5 inline-block mr-2">
               <Phone />
             </div>
 
             <a href="mailto:0031646296032">06 46296032</a>
+          </li>
+          <li>
+            <div class="w-5 h-5 inline-block mr-2">
+              <Location />
+            </div>
+
+            <a href="https://goo.gl/maps/UapSBsheqb7odKAH7">Noordzeelaan 50, 8017JW Zwolle</a>
           </li>
         </ul>
       </div>
