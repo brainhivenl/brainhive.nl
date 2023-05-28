@@ -1,0 +1,25 @@
+---
+import { Picture } from "@astrojs/image/components";
+
+const { src, aspectRatio, caption, maxWidth } = Astro.props;
+const widths = [1920, 1440, 768].filter((w) => w <= maxWidth);
+
+if (widths.length === 0) {
+  widths.push(maxWidth);
+}
+---
+
+<div class="text-center max-w-full">
+  <Picture
+    class="mx-auto object-contain"
+    src={src}
+    alt={caption}
+    widths={widths}
+    aspectRatio={aspectRatio}
+    style={{
+      maxWidth: maxWidth ? `min(${maxWidth}px, 100%)` : "100%"
+    }}
+  />
+
+  <p class="text-xs text-slate-500 !-mt-1.5">{caption}</p>
+</div>

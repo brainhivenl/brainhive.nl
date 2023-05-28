@@ -10,5 +10,10 @@ export default defineConfig({
   site: "https://brainhive.nl",
   integrations: [tailwind(), image({
     serviceEntryPoint: '@astrojs/image/sharp'
-  }), sitemap(), mdx()]
+  }), sitemap(), mdx({
+    smartypants: true,
+    shikiConfig: {
+      theme: "nord"
+    }
+  })]
 });

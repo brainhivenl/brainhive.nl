@@ -7,6 +7,7 @@ module.exports = {
 				padding: '1rem'
 			},
 			fontFamily: {
+				mono: ['Jetbrains Mono', 'monospace'],
 				sans: ['Raleway', 'sans-serif'],
 				display: ['Averia Serif Libre ', 'sans-serif'],
 				comfortaa: ['Comfortaa', 'sans-serif'],

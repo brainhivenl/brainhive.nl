@@ -1,4 +1,5 @@
 ---
+import "@fontsource/jetbrains-mono";
 import { parseISO, format } from "date-fns";
 import nl from "date-fns/locale/nl/index.js";
 import { Picture } from "@astrojs/image/components";
@@ -6,6 +7,7 @@ import { Picture } from "@astrojs/image/components";
 import Layout from "./Main.astro";
 
 const { frontmatter } = Astro.props;
+
 const publishedAt = parseISO(frontmatter.publishedAt);
 const publishedAtFmt = format(publishedAt, "d MMM yyyy", { locale: nl });
 ---
@@ -17,6 +19,24 @@ const publishedAtFmt = format(publishedAt, "d MMM yyyy", { locale: nl });
     image: `https://brainhive.nl${frontmatter.cover.image}`,
   }}
 >
+  <style is:global>
+    .prose :where(code):not(:where([class~="astro-code"] *))::before {
+      display: none;
+    }
+
+    .prose :where(code):not(:where([class~="astro-code"] *))::after {
+      display: none;
+    }
+
+    .prose :where(code):not(:where([class~="astro-code"] *)) {
+      padding: 0 .4rem;
+      border-radius: 4px;
+      display: inline-block;
+      background-color: #d8dee9;
+      font-weight: normal !important;
+    }
+  </style>
+
   <div class="flex items-end relative h-[450px]">
     <div
       class="flex items-center absolute left-0 top-0 w-full h-full overflow-hidden"

@@ -10,6 +10,8 @@ intro: |
     We will explore memory alignment in Rust, highlighting the influence of padding and field order on struct size.
     Through practical examples, we learn how automatic re-ordering in Rust works, which is different from languages like C, C++, or Go.
 ---
+import Image from "../../components/Image.astro";
+
 
 Before we dive into it, let's start with a practical example in Rust to show why this is relevant:
 
@@ -49,7 +51,12 @@ To understand how this works, we need to understand how the CPU reads the memory
 The CPU sends the address of the memory it wants to read to the address bus.
 Then it sends the “read” command to the memory on the control bus, and finally, the memory will send the data to the data bus.
 
-![Overview of the system bus (I/O not included)](/posts/memory-alignment/system-bus.png)
+<Image
+  src="/posts/memory-alignment/system-bus.png"
+  caption="Overview of the system bus (I/O not included)"
+  maxWidth={682}
+  aspectRatio="11:7"
+/>
 
 The amount of data transferred is often the same size as a single word (a unit specific for processors).
 On most 64-bit CPUs, the word size equals 8 bytes (=64 bits), whereas, on most 32-bit CPUs, this would be 4 bytes (=32 bits).
@@ -62,7 +69,12 @@ Remember that our `Member` struct has a size of 8 bytes while its fields combine
 This is because the compiler automatically aligns our memory.
 To do so, it adds three extra bytes of padding.
 
-![Memory layout of our struct on x86_64](/posts/memory-alignment/member-struct.png)
+<Image
+  src="/posts/memory-alignment/member-struct.png"
+  caption="Memory layout of our struct on x86_64"
+  maxWidth={736}
+  aspectRatio="8:7"
+/>
 
 The amount of padding is based on the field type, struct size, and CPU properties (such as the word size).
 
@@ -130,11 +142,16 @@ Member: 8 bytes
 
 To understand how this works, we can look at the memory layout for our `Member` struct both before and after re-ordering the fields.
 
-![Memory layout on x86_64 using the C representation with and without ordering fields](/posts/memory-alignment/member-struct-comparison.png)
+<Image
+  src="/posts/memory-alignment/member-struct-comparison.png"
+  caption="Memory layout on x86_64 using the C representation with and without ordering fields"
+  maxWidth={1312}
+  aspectRatio="14:9"
+/>
 
 ## Tooling
 
 As mentioned earlier, tooling is unnecessary when using Rust, as you most likely don't have to manually re-order fields.
 However, when you use Go, you can configure the [fieldalignment analyzer](https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/fieldalignment) with [golangci-lint](https://github.com/golangci/golangci-lint) to warn about “unoptimized” structures.
 
-I’m not aware of any tooling for C or C++ so let me know if you have any suggestions!
+I'm not aware of any tooling for C or C++ so let me know if you have any suggestions!
