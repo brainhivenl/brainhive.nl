@@ -1,33 +1,35 @@
 ---
-import Illustration from "./Illustration.astro";
 ---
 
 <div
   class="basis-full container mx-auto py-18 2xl:py-24 md:grid grid-cols-12 gap-12 items-center"
 >
-  <div class="col-span-7 md:pr-20">
+  <video
+    src="/video.mp4"
+    autoplay
+    loop
+    muted
+    playsinline
+    class="absolute top-0 left-0 w-full h-full object-cover z-0"></video>
+
+  <div class="col-span-7 md:pr-20 relative z-20">
     <h1
-      class="text-6xl md:text-8xl 2xl:text-9xl text-purple font-bold font-display !leading-snug"
+      class="text-6xl md:text-6xl lg:text-7xl 2xl:text-9xl text-purple font-bold font-display !leading-snug"
     >
       Cutting-edge digital solutions
     </h1>
 
-    <hr class="mb-5" />
+    <hr class="mb-8" />
 
     <h2
-      class="text-md md:text-lg 2xl:text-xl text-gray-500 !leading-loose mb-24"
+      class="text-md md:text-lg lg:text-xl 2xl:text-2xl text-gray-600 !leading-loose mb-24"
     >
-      We develop <strong>smart</strong> digital solutions and look beyond the question
-      to find the <strong>core</strong> of problems and prevent recurring issues.
-      As <strong>pioneers</strong>, we do what others don't dare to do and
-      challenge the industry. We want to understand your business and what kind
-      of challenges you're facing. Only then we can come up with the best
-      possible solution.
+      We develop <strong>smart</strong> digital solutions, always trying to look
+      beyond the question. As <strong>pioneers</strong>, we do what others don't
+      dare to do and challenge the industry.
     </h2>
   </div>
   <div class="hidden md:block col-span-5">
-    <div class="w-full">
-      <Illustration />
-    </div>
+    <div class="w-full"></div>
   </div>
 </div>

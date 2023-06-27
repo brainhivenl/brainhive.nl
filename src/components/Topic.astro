@@ -2,8 +2,12 @@
 const { title } = Astro.props;
 ---
 
-<h3 class="font-bold text-lg md:text-xl text-gray-600 mb-4">{title}</h3>
+<div>
+  <h3 class="font-black text-lg md:text-xl text-white mb-4">{title}</h3>
 
-<div class="leading-relaxed">
-  <slot />
+  <div class="p-5 bg-white rounded-md">
+    <div class="leading-relaxed">
+      <slot />
+    </div>
+  </div>
 </div>
