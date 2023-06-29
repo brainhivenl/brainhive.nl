@@ -52,11 +52,11 @@ const publishedAtFmt = format(publishedAt, "d MMM yyyy", { locale: nl });
     <div
       class="w-full sm:w-auto p-8 relative shrink-0 top-40 z-20 mx-auto bg-light-blue"
     >
-      <div class="prose lg:prose-lg">
+      <div class="w-[65ch] prose lg:prose-lg">
         <div class="not-prose">
           <p class="text-xs text-slate-500 mb-2">{publishedAtFmt}</p>
 
-          <h1 class="font-display text-4xl font-bold text-light-red m-0 mb-0.5">
+          <h1 class="font-display text-4xl font-bold text-light-red m-0 mb-1">
             {frontmatter.title}
           </h1>
           <h2 class="font-display text-xl text-gray-500 m-0">
